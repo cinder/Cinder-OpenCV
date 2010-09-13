@@ -1,0 +1,23 @@
+/**
+\page helloOpenCV Hello, OpenCV
+<H2>Introduction</H2>
+OpenCV is a big library. Its image analysis capabilities are what it's best known for, but it also contains functionality for . This guide will walk you through some of the features of OpenCV, as well as the techniques for integrating Cinder and OpenCV. While you don't need any prior experience working with OpenCV, we'll assume you're already familiar with Cinder. If that's not the case, we'd recommend you begin with the \ref helloCinder "Hello, Cinder" tutorial instead.\n\n
+<H2>Chapters</H2>
+\ref helloOpenCVChapter1 "Chapter 1: Getting Started"\n
+"Getting Started Description Here" \n
+\n
+\ref helloOpenCVChapter2 "Chapter 2: Transformations"\n
+"Transformations Description Here" \n
+\n
+"NOT STARTED: Chapter 3: Face Detection"\n
+"Face detection Description Here" \n
+\n
+"NOT STARTED: Chapter 4: Optical Flow"\n
+"Optical Flow Description Here" \n
+\n
+\ref helloOpenCVChapter5 "Chapter 5: Statistics"\n
+"Statistics Description Here" \n
+\n
+\n
+
+*/
