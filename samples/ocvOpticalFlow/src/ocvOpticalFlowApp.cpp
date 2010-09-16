@@ -43,10 +43,7 @@ void ocvOpticalFlowApp::setup()
 
 void ocvOpticalFlowApp::keyDown( KeyEvent event )
 {
-	if( event.getChar() == 'f' ) {
-		setFullScreen( ! isFullScreen() );
-	}
-	else if( event.getChar() == 'p' ) {
+	if( event.getChar() == 'p' ) {
 		mDrawPoints = ! mDrawPoints;
 	}
 	else if( event.getChar() == 'u' ) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <opencv/cv.h>
+#include "opencv/cv.h"
 
 #include "cinder/Cinder.h"
 #include "cinder/ImageIo.h"
@@ -68,7 +68,7 @@ class ImageSourceCvMat : public ImageSource {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ImageTargetCvMat
-ImageTargetCvMat::ImageTargetCvMat( cv::Mat *mat )
+inline ImageTargetCvMat::ImageTargetCvMat( cv::Mat *mat )
 	: ImageTarget(), mMat( mat )
 {
 	switch( mat->depth() ) {
@@ -98,16 +98,19 @@ ImageTargetCvMat::ImageTargetCvMat( cv::Mat *mat )
 	}
 }
 
-inline cv::Mat toOcv( ci::ImageSourceRef sourceRef )
+inline cv::Mat toOcv( ci::ImageSourceRef sourceRef, int type = -1 )
 {
-	int depth = CV_8U;
-	if( sourceRef->getDataType() == ImageIo::UINT16 )
-		depth = CV_16U;
-	else if( sourceRef->getDataType() == ImageIo::FLOAT32 )
-		depth = CV_32F;
-	int channels = ImageIo::channelOrderNumChannels( sourceRef->getChannelOrder() );
+	if( type == -1 ) {
+		int depth = CV_8U;
+		if( sourceRef->getDataType() == ImageIo::UINT16 )
+			depth = CV_16U;
+		else if( sourceRef->getDataType() == ImageIo::FLOAT32 )
+			depth = CV_32F;
+		int channels = ImageIo::channelOrderNumChannels( sourceRef->getChannelOrder() );
+		type = CV_MAKETYPE( depth, channels );
+	}
 	
-	cv::Mat result( sourceRef->getHeight(), sourceRef->getWidth(), CV_MAKETYPE( depth, channels) );
+	cv::Mat result( sourceRef->getHeight(), sourceRef->getWidth(), type );
 	ImageTargetRef target = ImageTargetCvMat::createRef( &result );
 	sourceRef->load( target );
 	return result;
