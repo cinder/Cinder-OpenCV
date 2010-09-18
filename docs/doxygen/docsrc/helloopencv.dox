@@ -9,7 +9,7 @@ OpenCV is a big library. Its image analysis capabilities are what it's best know
 \ref helloOpenCVChapter2 "Chapter 2: Transformations"\n
 "Transformations Description Here" \n
 \n
-"NOT STARTED: Chapter 3: Face Detection"\n
+\ref helloOpenCVChapter3 "Chapter 3: Face Detection"\n
 "Face detection Description Here" \n
 \n
 "NOT STARTED: Chapter 4: Optical Flow"\n

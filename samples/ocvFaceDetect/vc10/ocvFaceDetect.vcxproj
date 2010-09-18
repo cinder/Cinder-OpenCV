@@ -96,7 +96,7 @@
     <ClCompile Include="..\src\ocvFaceDetectApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\include\cinder\Cinder.h" />
+    <ClInclude Include="..\..\..\include\CinderOpenCV.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

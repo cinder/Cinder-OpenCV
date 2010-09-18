@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Header Files\Blocks">
+      <UniqueIdentifier>{d9a9c6a1-89f4-4da6-a9e0-2f4157027ce1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Blocks\openCV">
+      <UniqueIdentifier>{65a8ffd0-03b9-4e35-9aec-2b3bef5c985e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ocvFaceDetectApp.cpp">
@@ -20,8 +26,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\include\cinder\Cinder.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\include\CinderOpenCV.h">
+      <Filter>Header Files\Blocks\openCV</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
