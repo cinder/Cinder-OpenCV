@@ -254,9 +254,8 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
-					"-lcurl",
-					"$(CINDER_PATH)/blocks/opencv/OpenCV/lib/libcv.a",
-					"$(CINDER_PATH)/blocks/opencv/OpenCV/lib/libcxcore.a",
+					../../../lib/macosx/libcv.a,
+					../../../lib/macosx/libcxcore.a,
 				);
 				PRODUCT_NAME = ocvPerspective;
 				WRAPPER_EXTENSION = app;
@@ -280,9 +279,8 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/lib/libcinder.a\"",
-					"-lcurl",
-					"$(CINDER_PATH)/blocks/opencv/OpenCV/lib/libcv.a",
-					"$(CINDER_PATH)/blocks/opencv/OpenCV/lib/libcxcore.a",
+					../../../lib/macosx/libcv.a,
+					../../../lib/macosx/libcxcore.a,
 				);
 				PRODUCT_NAME = ocvPerspective;
 				STRIP_INSTALLED_PRODUCT = YES;

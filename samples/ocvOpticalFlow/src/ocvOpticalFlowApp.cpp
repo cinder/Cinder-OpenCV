@@ -4,7 +4,6 @@
 #include "cinder/qtime/QuickTime.h"
 #include "cinder/params/Params.h"
 
-#include <OpenCV/cv.h>
 #include "CinderOpenCV.h"
 
 using namespace ci;

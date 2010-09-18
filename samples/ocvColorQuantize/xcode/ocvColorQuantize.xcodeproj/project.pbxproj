@@ -253,9 +253,8 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
-					"-lcurl",
-					"\"$(CINDER_PATH)/blocks/opencv/OpenCV/lib/libcv.a\"",
-					"\"$(CINDER_PATH)/blocks/opencv/OpenCV/lib/libcxcore.a\"",
+					../../../lib/macosx/libcv.a,
+					../../../lib/macosx/libcxcore.a,
 				);
 				PRODUCT_NAME = ocvColorQuantize;
 				WRAPPER_EXTENSION = app;
@@ -279,9 +278,8 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/lib/libcinder.a\"",
-					"-lcurl",
-					"\"$(CINDER_PATH)/blocks/opencv/OpenCV/lib/libcv.a\"",
-					"\"$(CINDER_PATH)/blocks/opencv/OpenCV/lib/libcxcore.a\"",
+					../../../lib/macosx/libcv.a,
+					../../../lib/macosx/libcxcore.a,
 				);
 				PRODUCT_NAME = ocvColorQuantize;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -297,14 +295,11 @@
 				CINDER_PATH = ../../../../..;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(CINDER_PATH)/blocks/opencv/OpenCV/include\"",
-					"\"$(CINDER_PATH)/boost\"",
-				);
+				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../include";
 			};
 			name = Debug;
 		};
@@ -316,14 +311,11 @@
 				CINDER_PATH = ../../../../..;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(CINDER_PATH)/blocks/opencv/OpenCV/include\"",
-					"\"$(CINDER_PATH)/boost\"",
-				);
+				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
-				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../include";
 			};
 			name = Release;
 		};
