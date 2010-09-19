@@ -27,13 +27,11 @@ class ocvOpticalFlowApp : public AppBasic {
 	vector<uint8_t>			mFeatureStatuses;
 	bool					mDrawPoints;
 	
-	params::InterfaceGl		mParams;
 	static const int MAX_FEATURES = 300;
 };
 
 void ocvOpticalFlowApp::setup()
 {
-	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 400 ) );
 	mDrawPoints = true;
 	
 	mCapture = Capture( 640, 480 );
@@ -114,8 +112,6 @@ void ocvOpticalFlowApp::draw()
 		}
 	}
 	glEnd();
-	
-	mParams.draw();
 }
 
 

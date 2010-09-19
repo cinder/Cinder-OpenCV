@@ -1,4 +1,4 @@
-/*! \page helloOpenCVChapter5 Chapter 5: Statistics
+/*! \page helloOpenCVChapter4 Chapter 4: Statistics
 \section Introduction Introduction
 While OpenCV is obviously best known for its computer vision capabilities, it also contains plenty of functionality for things like pure mathematics and computational geometry. We'll take a look at one of these features, a technique called k-means clustering, and then apply it to the classic computer graphics problem of color reduction.\n
 \n
