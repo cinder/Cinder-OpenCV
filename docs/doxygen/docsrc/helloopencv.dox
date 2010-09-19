@@ -7,16 +7,16 @@ This guide will walk you through a few of the many features of OpenCV, as well a
 \n
 <H2>Chapters</H2>
 \ref helloOpenCVChapter1 "Chapter 1: Getting Started"\n
-"Getting Started Description Here" \n
+An introduction to basic image processing with OpenCV + Cinder\n
 \n
 \ref helloOpenCVChapter2 "Chapter 2: Transformations"\n
-"Transformations Description Here" \n
+Geometric transformations using affine and perspective warps\n
 \n
 \ref helloOpenCVChapter3 "Chapter 3: Face Detection"\n
-"Face detection Description Here" \n
+The age-old OpenCV rite of passage, a face + eye detector\n
 \n
 \ref helloOpenCVChapter4 "Chapter 4: Statistics"\n
-"Statistics Description Here" \n
+Using OpenCV's powerful k-means module to perform color quanitization\n
 \n
 \n
 \htmlonly </td><td> \endhtmlonly
