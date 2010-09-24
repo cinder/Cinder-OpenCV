@@ -23,10 +23,11 @@ void ocvBasicApp::setup()
 	// http://www.flickr.com/photos/stuckincustoms/4045813826/
 	
 	ci::Surface8u surface( loadImage( loadResource( RES_IMAGE ) ) );
-	cv::Mat input( toOcv( surface ) ), output;
+	cv::Mat input( toOcv( surface ) );
+	cv::Mat output;
 
 	cv::medianBlur( input, output, 11 );
-	cv::Sobel( input, output, CV_8U, 0, 1 ); 
+//	cv::Sobel( input, output, CV_8U, 0, 1 ); 
 //	cv::threshold( input, output, 128, 255, CV_8U );
 
 	mTexture = gl::Texture( fromOcv( output ) );

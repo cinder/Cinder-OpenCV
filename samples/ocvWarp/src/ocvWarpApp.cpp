@@ -38,7 +38,7 @@ void ocvWarpApp::setup()
 	mParams.addParam( "Rotation Center X", &mRotationCenter.x );
 	mParams.addParam( "Rotation Center Y", &mRotationCenter.y );
 	mParams.addParam( "Rotation Angle", &mRotationAngle );
-	mParams.addParam( "Scale", &mScale, "step=0.1" );
+	mParams.addParam( "Scale", &mScale, "step=0.01" );
 
 	updateImage();
 }

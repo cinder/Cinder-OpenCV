@@ -9,14 +9,15 @@ Here's the first interesting line. We're just including the OpenCV CinderBlock's
 void ocvBasicApp::setup()
 {
 	ci::Surface8u surface( loadImage( loadResource( RES_IMAGE ) ) );
-	cv::Mat input( toOcv( surface ) ), output;
+	cv::Mat input( toOcv( surface ) );
+	cv::Mat output;
 	cv::medianBlur( input, output, 11 );
 	...
 	mTexture = gl::Texture( fromOcv( output ) );
 }	 
 \endcode
 \n
-The first line should be familiar. We're just creating a \ref cinder::SurfaceT "ci::Surface" by loading an image from a resource... nothing fancy. Next, we dive right into some proper OpenCV code. We create two instances OpenCV's cv::Mat class. This class is very similar to Cinder's \ref cinder::SurfaceT "Surface", and can be used to represent an image. More on this important class later. Notice the constructor parameter for \a input - the result of a call to \ref cinder::toOcv "toOcv()" with the \a surface we loaded earlier. This is our first exposure to the CinderBlock layer. This function simply translates a Cinder class into a form that is usable directly with OpenCV - in this case a ci::Surface into something suitable to construct a cv::Mat with. We'll get deeper into how the OpenCV CinderBlock works in a bit. The second portion of the line constructs an empy cv::Mat called \a output.\n
+The first line should be familiar. We're just creating a \ref cinder::SurfaceT "ci::Surface" by loading an image from a resource. Next, we dive right into some proper OpenCV code. We create two instances OpenCV's cv::Mat class. This class is very similar to Cinder's \ref cinder::SurfaceT "Surface", and can be used to represent an image. More on this important class later. Notice the constructor parameter for \a input - the result of a call to \ref cinder::toOcv "toOcv()" with the \a surface we loaded earlier. This is our first exposure to the CinderBlock layer. This function simply translates a Cinder class into a form that is usable directly with OpenCV - in this case a ci::Surface into something suitable to construct a cv::Mat with. We'll get deeper into how the OpenCV CinderBlock works in a bit. The second portion of the line constructs an empy cv::Mat called \a output.\n
 \n
 Next, we get into some actual image processing. In this case, we are using OpenCV's medianBlur() function, which smooths an image using a median filter. The first parameter is the source cv::Mat, \a input in our case. The second parameter is the cv::Mat which will hold the result. OpenCV automatically creates a cv::Mat which is of the appropriate size and depth, and in our case will put this result into \a output. The final parameter is how large a window is examined for computing the median of each pixel - we've selected a kernel size of \c 11.\n
 \n

@@ -66,7 +66,7 @@ void ocvColorQuantizeApp::updateImage()
 		}
 	}
 	
-	// draw the color palette across the top of the image
+	// draw the color palette across the bottom of the image
 	const int swatchSize = 12;
 	for( int i = 0; i < colorCount; ++i ) {
 		ip::fill( &result, clusterColors[i], Area( i * swatchSize, result.getHeight() - swatchSize, ( i + 1 ) * swatchSize, result.getHeight() ) );
