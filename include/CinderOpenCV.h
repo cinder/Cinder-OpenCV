@@ -9,7 +9,7 @@ namespace cinder {
 
 class ImageTargetCvMat : public ImageTarget {
   public:
-	static shared_ptr<ImageTargetCvMat> createRef( cv::Mat *mat ) { return shared_ptr<ImageTargetCvMat>( new ImageTargetCvMat( mat ) ); }
+	static std::shared_ptr<ImageTargetCvMat> createRef( cv::Mat *mat ) { return std::shared_ptr<ImageTargetCvMat>( new ImageTargetCvMat( mat ) ); }
 
 	virtual bool hasAlpha() const { return mMat->channels() == 4; }	
 	virtual void*	getRowPointer( int32_t row ) { return reinterpret_cast<void*>( reinterpret_cast<uint8_t*>(mMat->data) + row * mMat->step ); }
