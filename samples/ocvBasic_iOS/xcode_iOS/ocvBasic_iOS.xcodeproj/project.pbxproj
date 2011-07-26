@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		000F5B5413CF1649003EF451 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 000F5B5313CF1649003EF451 /* AudioToolbox.framework */; };
+		0060053213DE75A900FAC30C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0060053113DE75A900FAC30C /* CoreText.framework */; };
 		00CFDF6B1138442D0091E310 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CFDF6A1138442D0091E310 /* CoreGraphics.framework */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		000F5B4F13CF15A9003EF451 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		000F5B5313CF1649003EF451 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0060053113DE75A900FAC30C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		00CFDF6A1138442D0091E310 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* ocvBasic_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ocvBasic_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0060053213DE75A900FAC30C /* CoreText.framework in Frameworks */,
 				000F5B5413CF1649003EF451 /* AudioToolbox.framework in Frameworks */,
 				C725E001121DAC8F00FA186B /* AVFoundation.framework in Frameworks */,
 				C725DFFE121DAC7F00FA186B /* CoreMedia.framework in Frameworks */,
@@ -89,6 +92,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				0060053113DE75A900FAC30C /* CoreText.framework */,
 				00CFDFB81138492F0091E310 /* Headers */,
 				00CFDFA7113848F40091E310 /* Source */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -213,18 +217,17 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "ocvBasic_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
 					"\"$(CINDER_PATH)/lib/libcinder-iphone_d.a\"",
 					"-lz",
-					../../../lib/ios/libcv.a,
-					../../../lib/ios/libcxcore.a,
+					../../../lib/ios/libopencv_core.a,
+					../../../lib/ios/libopencv_imgproc.a,
 				);
 				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=*]" = (
 					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim_d.a\"",
 					"-lz",
-					"../../../lib/ios-sim/libcv.a",
-					"../../../lib/ios-sim/libcxcore.a",
+					"../../../lib/ios-sim/libopencv_core.a",
+					"../../../lib/ios-sim/libopencv_imgproc.a",
 				);
 				PRODUCT_NAME = ocvBasic_iOS;
 				SDKROOT = iphoneos;
@@ -243,18 +246,17 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "ocvBasic_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
 					"\"$(CINDER_PATH)/lib/libcinder-iphone.a\"",
 					"-lz",
-					../../../lib/ios/libcv.a,
-					../../../lib/ios/libcxcore.a,
+					../../../lib/ios/libopencv_core.a,
+					../../../lib/ios/libopencv_imgproc.a,
 				);
 				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=*]" = (
 					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim.a\"",
 					"-lz",
-					"../../../lib/ios-sim/libcv.a",
-					"../../../lib/ios-sim/libcxcore.a",
+					"../../../lib/ios-sim/libopencv_core.a",
+					"../../../lib/ios-sim/libopencv_imgproc.a",
 				);
 				PRODUCT_NAME = ocvBasic_iOS;
 				SDKROOT = iphoneos;
@@ -265,7 +267,6 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = armv7;
 				CINDER_PATH = ../../../../..;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -276,7 +277,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos4.3;
 				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../../../include ../include";
 			};
 			name = Debug;
@@ -284,7 +285,6 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = armv7;
 				CINDER_PATH = ../../../../..;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -294,7 +294,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos4.3;
 				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../../../include ../include";
 			};
 			name = Release;
