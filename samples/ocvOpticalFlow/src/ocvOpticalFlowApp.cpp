@@ -66,11 +66,9 @@ void ocvOpticalFlowApp::update()
 		Surface surface( mCapture.getSurface() );
 		mTexture = gl::Texture( surface );
 		cv::Mat currentFrame( toOcv( Channel( surface ) ) );
-		if( ! mPrevFrame.data ) {
-		
-		}
-		else {
-			chooseFeatures( mPrevFrame );
+		if( mPrevFrame.data ) {
+			if( mFeatures.empty() || getElapsedFrames() % 30 == 0 ) // pick new features once every 30 frames, or the first frame
+				chooseFeatures( mPrevFrame );
 			trackFeatures( currentFrame );
 		}
 		mPrevFrame = currentFrame;
