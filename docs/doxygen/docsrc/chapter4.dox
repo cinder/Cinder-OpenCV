@@ -21,7 +21,7 @@ vector<Vec2f> calculateClusters( const vector<Vec2f> &input, int k )
 
 	cv::Mat labels, clusters;
 	cv::kmeans( inputMat, k, labels, cv::TermCriteria( cv::TermCriteria::COUNT, 10, 0 ),
-		12, cv::KMEANS_RANDOM_CENTERS, &clusters );
+		12, cv::KMEANS_RANDOM_CENTERS, clusters );
 
 	vector<Vec2f> result;
 	for( size_t i = 0; i < k; ++i )
@@ -48,7 +48,7 @@ cv::Mat labels, clusters;
 Here we are simply declaring some empty <tt>cv::Mat</tt>s which will store our results. We will ignore \a labels in this example, but \a clusters will hold the result we are interested in - the green dots.\n
 \code
 	cv::kmeans( inputMat, k, labels, cv::TermCriteria( cv::TermCriteria::COUNT, 10, 0 ),
-		12, cv::KMEANS_RANDOM_CENTERS, &clusters );
+		12, cv::KMEANS_RANDOM_CENTERS, clusters );
 \endcode
 \n
 Next is the heavy lifting, where we call <a href="http://opencv.willowgarage.com/documentation/cpp/clustering_and_search_in_multi-dimensional_spaces.html#cv-kmeans">cv::kmeans</a> itself. First we pass the input samples array \a inputMat, followed by the number of clusters we are looking for - our \a k parameter. Next we give the function somewhere to put its output labels - something we are not interested in yet but will use in a later example. The fourth parameter is a cv::TermCriteria or termination criteria. This is a class which allows us to tell OpenCV when its calculation is good enough. The example above tells OpenCV to refine its results \c 10 times and call it good. More refinements can result in a more precise result but also take longer. Next is a parameter which tells OpenCV how many times to attempt the algorithm, which we've selected \c 12 for. Don't confuse this parameter with the refinement parameter of the cv::TermCriteria. The way the k-means algorithm works involves an initial random distribution of cluster centers which are refined according to the cv::TermCriteria. This \a attempts parameter tells OpenCV how many times to start over with different random distributions. It will automatically select the best result from each of these attempts. The next parameter, for which we have selected \c cv::KMEANS_RANDOM_CENTERS, tells OpenCV how to do its initial random distribution, and can generally be the constant we are passing here. Finally, we give OpenCV the address of a cv::Mat where it can put its results, \a &clusters.\n

@@ -48,7 +48,7 @@ void ocvColorQuantizeApp::updateImage()
 
 	// call kmeans	
 	cv::Mat labels, clusters;
-	cv::kmeans( colorSamples, colorCount, labels, cv::TermCriteria( cv::TermCriteria::COUNT, 8, 0 ), 2, cv::KMEANS_RANDOM_CENTERS, &clusters );
+	cv::kmeans( colorSamples, colorCount, labels, cv::TermCriteria( cv::TermCriteria::COUNT, 8, 0 ), 2, cv::KMEANS_RANDOM_CENTERS, clusters );
 
 	Color8u clusterColors[colorCount];
 	for( int i = 0; i < colorCount; ++i )
