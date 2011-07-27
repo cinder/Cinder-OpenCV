@@ -253,8 +253,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
-					../../../lib/macosx/libcv.a,
-					../../../lib/macosx/libcxcore.a,
+					../../../lib/macosx/libopencv_imgproc.a,
+					../../../lib/macosx/libopencv_core.a,
+					../../../lib/macosx/libopencv_video.a,
 				);
 				PRODUCT_NAME = ocvOpticalFlow;
 				WRAPPER_EXTENSION = app;
@@ -276,9 +277,10 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
-					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
-					../../../lib/macosx/libcv.a,
-					../../../lib/macosx/libcxcore.a,
+					"\"$(CINDER_PATH)/lib/libcinder.a\"",
+					../../../lib/macosx/libopencv_imgproc.a,
+					../../../lib/macosx/libopencv_core.a,
+					../../../lib/macosx/libopencv_video.a,
 				);
 				PRODUCT_NAME = ocvOpticalFlow;
 				STRIP_INSTALLED_PRODUCT = YES;
