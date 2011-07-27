@@ -198,7 +198,11 @@
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ocvCapture" */;
 			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ocvCapture */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -247,8 +251,8 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
-					../../../lib/macosx/libcv.a,
-					../../../lib/macosx/libcxcore.a,
+					../../../lib/macosx/libopencv_imgproc.a,
+					../../../lib/macosx/libopencv_core.a,
 				);
 				PRODUCT_NAME = ocvCapture;
 				WRAPPER_EXTENSION = app;
@@ -272,8 +276,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/lib/libcinder.a\"",
-					../../../lib/macosx/libcv.a,
-					../../../lib/macosx/libcxcore.a,
+					"-lcurl",
+					../../../lib/macosx/libopencv_imgproc.a,
+					../../../lib/macosx/libopencv_core.a,
 				);
 				PRODUCT_NAME = ocvCapture;
 				STRIP_INSTALLED_PRODUCT = YES;
