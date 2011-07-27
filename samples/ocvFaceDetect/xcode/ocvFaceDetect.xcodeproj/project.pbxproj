@@ -260,9 +260,10 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
-					"$(CINDER_PATH)/lib/libcinder_d.a",
-					../../../lib/macosx/libcv.a,
-					../../../lib/macosx/libcxcore.a,
+					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
+					../../../lib/macosx/libopencv_imgproc.a,
+					../../../lib/macosx/libopencv_core.a,
+					../../../lib/macosx/libopencv_objdetect.a,
 				);
 				PRODUCT_NAME = ocvFaceDetect;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
@@ -285,9 +286,11 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
-					"$(CINDER_PATH)/lib/libcinder_d.a",
-					../../../lib/macosx/libcv.a,
-					../../../lib/macosx/libcxcore.a,
+					"\"$(CINDER_PATH)/lib/libcinder.a\"",
+					"-lcurl",
+					../../../lib/macosx/libopencv_imgproc.a,
+					../../../lib/macosx/libopencv_core.a,
+					../../../lib/macosx/libopencv_objdetect.a,
 				);
 				PRODUCT_NAME = ocvFaceDetect;
 				STRIP_INSTALLED_PRODUCT = YES;
