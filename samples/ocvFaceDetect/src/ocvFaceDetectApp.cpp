@@ -26,8 +26,13 @@ class ocvFaceDetectApp : public AppBasic {
 
 void ocvFaceDetectApp::setup()
 {
-	mFaceCascade.load( getAssetPath( "haarcascade_frontalface_alt.xml" ).string() );
-	mEyeCascade.load( getAssetPath( "haarcascade_eye.xml" ).string() );	
+#if defined( CINDER_MAC )
+	mFaceCascade.load( getResourcePath( "haarcascade_frontalface_alt.xml" ) );
+	mEyeCascade.load( getResourcePath( "haarcascade_eye.xml" ) );	
+#else
+	mFaceCascade.load( getAppPath() + "../../resources/haarcascade_frontalface_alt.xml" );
+	mEyeCascade.load( getAppPath() + "../../resources/haarcascade_eye.xml" );	
+#endif
 	
 	mCapture = Capture( 640, 480 );
 	mCapture.start();

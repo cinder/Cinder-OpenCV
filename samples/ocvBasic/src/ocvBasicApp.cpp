@@ -1,4 +1,4 @@
-#include "cinder/app/AppBasic.h"
+#include "cinder/app/AppNative.h"
 #include "cinder/ImageIo.h"
 #include "cinder/gl/Texture.h"
 
@@ -9,7 +9,7 @@
 using namespace ci;
 using namespace ci::app;
 
-class ocvBasicApp : public AppBasic {
+class ocvBasicApp : public AppNative {
   public:
 	void setup();
 	void draw();
@@ -22,7 +22,7 @@ void ocvBasicApp::setup()
 	// The included image is copyright Trey Ratcliff
 	// http://www.flickr.com/photos/stuckincustoms/4045813826/
 	
-	ci::Surface8u surface( loadImage( loadResource( RES_IMAGE ) ) );
+	ci::Surface8u surface( loadImage( loadAsset( "dfw.jpg" ) ) );
 	cv::Mat input( toOcv( surface ) );
 	cv::Mat output;
 
@@ -39,4 +39,4 @@ void ocvBasicApp::draw()
 	gl::draw( mTexture );
 }
 
-CINDER_APP_BASIC( ocvBasicApp, RendererGl )
+CINDER_APP_NATIVE( ocvBasicApp, RendererGl )
