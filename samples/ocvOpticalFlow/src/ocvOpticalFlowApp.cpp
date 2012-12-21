@@ -1,7 +1,6 @@
-#include "cinder/app/AppBasic.h"
+#include "cinder/app/AppNative.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/Capture.h"
-#include "cinder/qtime/QuickTime.h"
 #include "cinder/params/Params.h"
 
 #include "CinderOpenCV.h"
@@ -10,7 +9,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class ocvOpticalFlowApp : public AppBasic {
+class ocvOpticalFlowApp : public AppNative {
   public:
 	void setup();
 	void update();
@@ -84,8 +83,8 @@ void ocvOpticalFlowApp::draw()
 	gl::enableAlphaBlending();
 	
 	gl::setMatricesWindow( getWindowSize() );
-	glColor3f( 1, 1, 1 );
-	gl::draw( mTexture, getWindowBounds() );
+	gl::color( 1, 1, 1 );
+	gl::draw( mTexture );
 	
 	glDisable( GL_TEXTURE_2D );
 	glColor4f( 1, 1, 0, 0.5f );
@@ -101,6 +100,7 @@ void ocvOpticalFlowApp::draw()
 	}
 	
 	// draw the lines connecting them
+#if ! defined( CINDER_COCOA_TOUCH )
 	glColor4f( 0, 1, 0, 0.5f );
 	glBegin( GL_LINES );
 	for( size_t idx = 0; idx < mFeatures.size(); ++idx ) {
@@ -110,7 +110,8 @@ void ocvOpticalFlowApp::draw()
 		}
 	}
 	glEnd();
+#endif
 }
 
 
-CINDER_APP_BASIC( ocvOpticalFlowApp, RendererGl )
+CINDER_APP_NATIVE( ocvOpticalFlowApp, RendererGl )

@@ -60,8 +60,6 @@
 			<staticLibrary>lib/macosx/libopencv_features2d.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_flann.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_gpu.a</staticLibrary>
-			<staticLibrary>lib/macosx/libopencv_haartraining_engine.a</staticLibrary>
-			<staticLibrary>lib/macosx/libopencv_highgui.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_imgproc.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_legacy.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_ml.a</staticLibrary>

@@ -5,8 +5,6 @@
 
 #include "CinderOpenCV.h"
 
-#include "Resources.h"
-
 using namespace ci;
 using namespace ci::app;
 
@@ -28,7 +26,7 @@ class ocvWarpApp : public AppBasic {
 
 void ocvWarpApp::setup()
 {		
-	mInputImage = ci::Surface8u( loadImage( loadResource( RES_IMAGE ) ) );
+	mInputImage = ci::Surface8u( loadImage( loadAsset( "aus.jpg" ) ) );
 
 	mRotationCenter = mInputImage.getSize() * 0.5f;
 	mRotationAngle = 31.2f;

@@ -1,15 +1,15 @@
-#include "cinder/app/AppBasic.h"
+#include "cinder/app/AppNative.h"
 #include "cinder/gl/Texture.h"
 #include "CinderOpenCV.h"
-#include "Resources.h"
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
 
 // We'll create a new Cinder Application by deriving from the AppBasic class
-class ocvPerspectiveApp : public AppBasic {
+class ocvPerspectiveApp : public AppNative {
   public:
+	void	prepareSettings( Settings *settings );
 	void	setup();
 
 	int		findNearestPt( const Vec2f &aPt, float minDistance );
@@ -26,12 +26,17 @@ class ocvPerspectiveApp : public AppBasic {
 	gl::Texture			mTexture;
 };
 
+void ocvPerspectiveApp::prepareSettings( Settings *settings )
+{
+	settings->enableMultiTouch( false );
+}
+
 void ocvPerspectiveApp::setup()
 {
 	// The included image is copyright Pedro Szekely
 	// http://www.flickr.com/photos/pedrosz/3411746271/
 
-	mInputImage = ci::Surface8u( loadImage( loadResource( RES_IMAGE ) ) );	
+	mInputImage = ci::Surface8u( loadImage( loadAsset( "LAX.jpg" ) ) );	
 	
 	mTrackedPoint = -1;
 	mPoints[0] = Vec2f( 150, 110 );
@@ -61,7 +66,7 @@ int ocvPerspectiveApp::findNearestPt( const Vec2f &aPt, float minDistance )
 
 void ocvPerspectiveApp::mouseDown( MouseEvent event )
 {
-	mTrackedPoint = findNearestPt( event.getPos(), 6.0f );
+	mTrackedPoint = findNearestPt( event.getPos(), 50 );
 }
 
 void ocvPerspectiveApp::mouseDrag( MouseEvent event )
@@ -101,13 +106,13 @@ void ocvPerspectiveApp::draw()
 {
 	gl::clear( Color( 0.1f, 0.1f, 0.1f ) );
 
-	gl::color( Color( 1, 1, 1 ) );
+	gl::color( Color::white() );
 	gl::draw( mTexture );
 
-	glColor3f( 1.0f, 0.5f, 0.25f );
+	gl::color( 1.0f, 0.5f, 0.25f );
 	for( int i = 0; i < 4; ++i )
 		gl::drawSolidCircle( mPoints[i], 4.0f );
 }
 
 // This line tells Cinder to actually create the application
-CINDER_APP_BASIC( ocvPerspectiveApp, RendererGl )
+CINDER_APP_NATIVE( ocvPerspectiveApp, RendererGl )

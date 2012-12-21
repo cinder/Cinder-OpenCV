@@ -1,4 +1,4 @@
-#include "cinder/app/AppBasic.h"
+#include "cinder/app/AppNative.h"
 #include "cinder/ImageIo.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/params/Params.h"
@@ -6,12 +6,10 @@
 
 #include "CinderOpenCV.h"
 
-#include "Resources.h"
-
 using namespace ci;
 using namespace ci::app;
 
-class ocvColorQuantizeApp : public AppBasic {
+class ocvColorQuantizeApp : public AppNative {
   public:
 	void setup();
 	void draw();
@@ -27,7 +25,7 @@ void ocvColorQuantizeApp::setup()
 	// Image copyright Eric J Paparatto
 	// http://www.flickr.com/photos/ejpphoto/2633923684/
 	
-	mInputImage = ci::Surface8u( loadImage( loadResource( RES_IMAGE ) ) );
+	mInputImage = ci::Surface8u( loadImage( loadAsset( "nyc.jpg" ) ) );
 	setWindowSize( mInputImage.getWidth(), mInputImage.getHeight() );
 
 	updateImage();
@@ -84,4 +82,4 @@ void ocvColorQuantizeApp::draw()
 }
 
 
-CINDER_APP_BASIC( ocvColorQuantizeApp, RendererGl )
+CINDER_APP_NATIVE( ocvColorQuantizeApp, RendererGl )

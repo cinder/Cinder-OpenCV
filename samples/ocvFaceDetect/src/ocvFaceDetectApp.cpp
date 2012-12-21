@@ -1,4 +1,4 @@
-#include "cinder/app/AppBasic.h"
+#include "cinder/app/AppNative.h"
 #include "cinder/Capture.h"
 #include "cinder/gl/Texture.h"
 
@@ -8,7 +8,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class ocvFaceDetectApp : public AppBasic {
+class ocvFaceDetectApp : public AppNative {
  public:
 	void setup();
 
@@ -26,14 +26,9 @@ class ocvFaceDetectApp : public AppBasic {
 
 void ocvFaceDetectApp::setup()
 {
-#if defined( CINDER_MAC )
-	mFaceCascade.load( getResourcePath( "haarcascade_frontalface_alt.xml" ) );
-	mEyeCascade.load( getResourcePath( "haarcascade_eye.xml" ) );	
-#else
-	mFaceCascade.load( getAppPath() + "../../resources/haarcascade_frontalface_alt.xml" );
-	mEyeCascade.load( getAppPath() + "../../resources/haarcascade_eye.xml" );	
-#endif
-	
+	mFaceCascade.load( getAssetPath( "haarcascade_frontalface_alt.xml" ).c_str() );
+	mEyeCascade.load( getAssetPath( "haarcascade_eye.xml" ).c_str() );	
+
 	mCapture = Capture( 640, 480 );
 	mCapture.start();
 }
@@ -110,4 +105,4 @@ void ocvFaceDetectApp::draw()
 		gl::drawSolidCircle( eyeIter->getCenter(), eyeIter->getWidth() / 2 );
 }
 
-CINDER_APP_BASIC( ocvFaceDetectApp, RendererGl )
+CINDER_APP_NATIVE( ocvFaceDetectApp, RendererGl )

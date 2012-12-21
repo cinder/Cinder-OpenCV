@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -13,21 +12,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Header Files\Blocks">
-      <UniqueIdentifier>{d9a9c6a1-89f4-4da6-a9e0-2f4157027ce1}</UniqueIdentifier>
+    <Filter Include="Blocks">
+      <UniqueIdentifier>{0ADED562-64D5-408E-B7FF-9775EB3DDD3E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Blocks\openCV">
-      <UniqueIdentifier>{65a8ffd0-03b9-4e35-9aec-2b3bef5c985e}</UniqueIdentifier>
+    <Filter Include="Blocks\OpenCV">
+      <UniqueIdentifier>{3A8C78DB-FC51-4761-A7DD-105EA545E865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\OpenCV\include">
+      <UniqueIdentifier>{A0C7714E-1A37-4688-B17D-4FB2A3A3078E}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ocvFaceDetectApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ocvFaceDetectApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\CinderOpenCV.h">
+      <Filter>Blocks\OpenCV\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\CinderOpenCV.h">
-      <Filter>Header Files\Blocks\openCV</Filter>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
