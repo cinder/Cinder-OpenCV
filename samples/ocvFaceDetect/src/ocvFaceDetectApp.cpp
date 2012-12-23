@@ -26,8 +26,8 @@ class ocvFaceDetectApp : public AppNative {
 
 void ocvFaceDetectApp::setup()
 {
-	mFaceCascade.load( getAssetPath( "haarcascade_frontalface_alt.xml" ).c_str() );
-	mEyeCascade.load( getAssetPath( "haarcascade_eye.xml" ).c_str() );	
+	mFaceCascade.load( getAssetPath( "haarcascade_frontalface_alt.xml" ).string() );
+	mEyeCascade.load( getAssetPath( "haarcascade_eye.xml" ).string() );	
 
 	mCapture = Capture( 640, 480 );
 	mCapture.start();
