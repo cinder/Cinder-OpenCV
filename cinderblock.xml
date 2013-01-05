@@ -53,6 +53,44 @@
 			<staticLibrary>lib/vc10/opencv_videostab243.lib</staticLibrary>
 		</platform>
 	</platform>
+	<platform compiler="vc11">
+		<platform config="Debug">
+			<staticLibrary>lib/vc11/opencv_calib3d243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_contrib243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_core243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_features2d243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_flann243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_gpu243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_imgproc243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_legacy243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_ml243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_nonfree243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_objdetect243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_photo243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_stitching243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_ts243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_video243d.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_videostab243d.lib</staticLibrary>
+		</platform>
+		<platform config="release">
+			<staticLibrary>lib/vc11/opencv_calib3d243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_contrib243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_core243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_features2d243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_flann243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_gpu243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_imgproc243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_legacy243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_ml243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_nonfree243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_objdetect243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_photo243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_stitching243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_ts243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_video243.lib</staticLibrary>
+			<staticLibrary>lib/vc11/opencv_videostab243.lib</staticLibrary>
+		</platform>
+	</platform>
 	<platform os="macosx">
 			<staticLibrary>lib/macosx/libopencv_calib3d.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_contrib.a</staticLibrary>
