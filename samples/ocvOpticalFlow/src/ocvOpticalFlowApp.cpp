@@ -56,7 +56,8 @@ void ocvOpticalFlowApp::trackFeatures( cv::Mat currentFrame )
 {
 	vector<float> errors;
 	mPrevFeatures = mFeatures;
-	cv::calcOpticalFlowPyrLK( mPrevFrame, currentFrame, mPrevFeatures, mFeatures, mFeatureStatuses, errors );
+	if( ! mFeatures.empty() )
+		cv::calcOpticalFlowPyrLK( mPrevFrame, currentFrame, mPrevFeatures, mFeatures, mFeatureStatuses, errors );
 }
 
 void ocvOpticalFlowApp::update()
