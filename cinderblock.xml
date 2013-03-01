@@ -7,14 +7,12 @@
 	license="BSD"
 	summary="OpenCV computer vision libraries"
 	git="git://github.com/cinder/Cinder-OpenCV.git"
+	version="2.4.3"
+	libraryUrl="http://opencv.org/"
 	>
 	<header>include/CinderOpenCV.h</header>
 	<includePath>include</includePath>
 	<includePath>include/opencv2</includePath>
-	<copyExclude>docs</copyExclude>
-	<copyExclude>samples</copyExclude>
-	<copyExclude>templates</copyExclude>
-	<copyExclude>README</copyExclude>
 	<platform compiler="vc10">
 		<platform config="Debug">
 			<staticLibrary>lib/vc10/opencv_calib3d243d.lib</staticLibrary>
@@ -118,12 +116,8 @@
 			<staticLibrary>lib/ios-sim/libopencv_imgproc.a</staticLibrary>
 			<staticLibrary>lib/ios-sim/libopencv_legacy.a</staticLibrary>
 			<staticLibrary>lib/ios-sim/libopencv_ml.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_nonfree.a</staticLibrary>
 			<staticLibrary>lib/ios-sim/libopencv_objdetect.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_photo.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_stitching.a</staticLibrary>
 			<staticLibrary>lib/ios-sim/libopencv_video.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_videostab.a</staticLibrary>
 	</platform>
 	<platform os="ios" sdk="device">
 			<staticLibrary>lib/ios/libopencv_calib3d.a</staticLibrary>
@@ -134,12 +128,8 @@
 			<staticLibrary>lib/ios/libopencv_imgproc.a</staticLibrary>
 			<staticLibrary>lib/ios/libopencv_legacy.a</staticLibrary>
 			<staticLibrary>lib/ios/libopencv_ml.a</staticLibrary>
-			<staticLibrary>lib/ios/libopencv_nonfree.a</staticLibrary>
 			<staticLibrary>lib/ios/libopencv_objdetect.a</staticLibrary>
-			<staticLibrary>lib/ios/libopencv_photo.a</staticLibrary>
-			<staticLibrary>lib/ios/libopencv_stitching.a</staticLibrary>
 			<staticLibrary>lib/ios/libopencv_video.a</staticLibrary>
-			<staticLibrary>lib/ios/libopencv_videostab.a</staticLibrary>
 	</platform>
 </block>
 <template>templates/Basic OpenCV/template.xml</template>
