@@ -1,27 +1,11 @@
 #ifndef __OPENCV_GTESTCV_HPP__
 #define __OPENCV_GTESTCV_HPP__
 
-#if HAVE_CVCONFIG_H
-#include "cvconfig.h"
-#endif
-#ifndef GTEST_CREATE_SHARED_LIBRARY
-#ifdef BUILD_SHARED_LIBS
-#define GTEST_LINKED_AS_SHARED_LIBRARY 1
-#endif
-#endif
-
-#ifdef ANDROID
-# include <android/api-level.h>
-# define GTEST_HAS_CLONE (__ANDROID_API__ > 7 && !defined __i386__)
-# define GTEST_HAS_POSIX_RE (__ANDROID_API__ > 7)
-# if defined _GLIBCXX_USE_WCHAR_T && _GLIBCXX_USE_WCHAR_T
-#  define GTEST_HAS_STD_WSTRING 1
-# else
-#  define GTEST_HAS_STD_WSTRING 0
-#endif
-#endif
-
 #include <stdarg.h> // for va_list
+
+#ifdef HAVE_WINRT
+    #pragma warning(disable:4447) // Disable warning 'main' signature found without threading model
+#endif
 
 #ifdef _MSC_VER
 #pragma warning( disable: 4127 )
@@ -388,7 +372,7 @@ public:
         // processing time (in this case there should be possibility to interrupt such a function
         FAIL_HANG=-13,
 
-        // unexpected responce on passing bad arguments to the tested function
+        // unexpected response on passing bad arguments to the tested function
         // (the function crashed, proceed succesfully (while it should not), or returned
         // error code that is different from what is expected)
         FAIL_BAD_ARG_CHECK=-14,
@@ -558,6 +542,16 @@ struct CV_EXPORTS DefaultRngAuto
 
 }
 
+namespace cvtest
+{
+
+// test images generation functions
+CV_EXPORTS void fillGradient(Mat& img, int delta = 5);
+CV_EXPORTS void smoothBorder(Mat& img, const Scalar& color, int delta = 3);
+
+CV_EXPORTS void printVersionInfo(bool useStdOut = true);
+} //namespace cvtest
+
 // fills c with zeros
 CV_EXPORTS void cvTsZero( CvMat* c, const CvMat* mask=0 );
 
@@ -570,13 +564,32 @@ CV_EXPORTS void  cvTsConvert( const CvMat* src, CvMat* dst );
 CV_EXPORTS void cvTsGEMM( const CvMat* a, const CvMat* b, double alpha,
                          const CvMat* c, double beta, CvMat* d, int flags );
 
-#define CV_TEST_MAIN(resourcesubdir) \
+#ifndef __CV_TEST_EXEC_ARGS
+#if defined(_MSC_VER) && (_MSC_VER <= 1400)
+#define __CV_TEST_EXEC_ARGS(...)    \
+    while (++argc >= (--argc,-1)) {__VA_ARGS__; break;} /*this ugly construction is needed for VS 2005*/
+#else
+#define __CV_TEST_EXEC_ARGS(...)    \
+    __VA_ARGS__;
+#endif
+#endif
+
+#define CV_TEST_MAIN(resourcesubdir, ...) \
 int main(int argc, char **argv) \
 { \
     cvtest::TS::ptr()->init(resourcesubdir); \
     ::testing::InitGoogleTest(&argc, argv); \
+    cvtest::printVersionInfo(); \
+    __CV_TEST_EXEC_ARGS(__VA_ARGS__) \
     return RUN_ALL_TESTS(); \
 }
+
+// This usually only makes sense in perf tests with several implementations,
+// some of which are not available.
+#define CV_TEST_FAIL_NO_IMPL() do { \
+    ::testing::Test::RecordProperty("custom_status", "noimpl"); \
+    FAIL() << "No equivalent implementation."; \
+} while (0)
 
 #endif
 

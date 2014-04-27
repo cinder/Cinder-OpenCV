@@ -22,7 +22,7 @@
 //
 //   * Redistribution's in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
-//     and/or other GpuMaterials provided with the distribution.
+//     and/or other materials provided with the distribution.
 //
 //   * The name of the copyright holders may not be used to endorse or promote products
 //     derived from this software without specific prior written permission.
@@ -145,43 +145,49 @@ public:
     ~Stream();
 
     Stream(const Stream&);
-    Stream& operator=(const Stream&);
+    Stream& operator =(const Stream&);
 
     bool queryIfComplete();
     void waitForCompletion();
 
-    //! downloads asynchronously.
+    //! downloads asynchronously
     // Warning! cv::Mat must point to page locked memory (i.e. to CudaMem data or to its subMat)
     void enqueueDownload(const GpuMat& src, CudaMem& dst);
     void enqueueDownload(const GpuMat& src, Mat& dst);
 
-    //! uploads asynchronously.
+    //! uploads asynchronously
     // Warning! cv::Mat must point to page locked memory (i.e. to CudaMem data or to its ROI)
     void enqueueUpload(const CudaMem& src, GpuMat& dst);
     void enqueueUpload(const Mat& src, GpuMat& dst);
 
+    //! copy asynchronously
     void enqueueCopy(const GpuMat& src, GpuMat& dst);
 
+    //! memory set asynchronously
     void enqueueMemSet(GpuMat& src, Scalar val);
     void enqueueMemSet(GpuMat& src, Scalar val, const GpuMat& mask);
 
-    // converts matrix type, ex from float to uchar depending on type
-    void enqueueConvert(const GpuMat& src, GpuMat& dst, int type, double a = 1, double b = 0);
+    //! converts matrix type, ex from float to uchar depending on type
+    void enqueueConvert(const GpuMat& src, GpuMat& dst, int dtype, double a = 1, double b = 0);
+
+    //! adds a callback to be called on the host after all currently enqueued items in the stream have completed
+    typedef void (*StreamCallback)(Stream& stream, int status, void* userData);
+    void enqueueHostCallback(StreamCallback callback, void* userData);
 
     static Stream& Null();
 
     operator bool() const;
 
 private:
+    struct Impl;
+
+    explicit Stream(Impl* impl);
     void create();
     void release();
 
-    struct Impl;
     Impl *impl;
 
     friend struct StreamAccessor;
-
-    explicit Stream(Impl* impl);
 };
 
 
@@ -459,6 +465,12 @@ CV_EXPORTS void cartToPolar(const GpuMat& x, const GpuMat& y, GpuMat& magnitude,
 //! supports only floating-point source
 CV_EXPORTS void polarToCart(const GpuMat& magnitude, const GpuMat& angle, GpuMat& x, GpuMat& y, bool angleInDegrees = false, Stream& stream = Stream::Null());
 
+//! scales and shifts array elements so that either the specified norm (alpha) or the minimum (alpha) and maximum (beta) array values get the specified values
+CV_EXPORTS void normalize(const GpuMat& src, GpuMat& dst, double alpha = 1, double beta = 0,
+                          int norm_type = NORM_L2, int dtype = -1, const GpuMat& mask = GpuMat());
+CV_EXPORTS void normalize(const GpuMat& src, GpuMat& dst, double a, double b,
+                          int norm_type, int dtype, const GpuMat& mask, GpuMat& norm_buf, GpuMat& cvt_buf);
+
 
 //////////////////////////// Per-element operations ////////////////////////////////////
 
@@ -527,6 +539,7 @@ CV_EXPORTS void pow(const GpuMat& src, double power, GpuMat& dst, Stream& stream
 
 //! compares elements of two arrays (c = a <cmpop> b)
 CV_EXPORTS void compare(const GpuMat& a, const GpuMat& b, GpuMat& c, int cmpop, Stream& stream = Stream::Null());
+CV_EXPORTS void compare(const GpuMat& a, Scalar sc, GpuMat& c, int cmpop, Stream& stream = Stream::Null());
 
 //! performs per-elements bit-wise inversion
 CV_EXPORTS void bitwise_not(const GpuMat& src, GpuMat& dst, const GpuMat& mask=GpuMat(), Stream& stream = Stream::Null());
@@ -614,6 +627,26 @@ CV_EXPORTS void reprojectImageTo3D(const GpuMat& disp, GpuMat& xyzw, const Mat& 
 //! converts image from one color space to another
 CV_EXPORTS void cvtColor(const GpuMat& src, GpuMat& dst, int code, int dcn = 0, Stream& stream = Stream::Null());
 
+enum
+{
+    // Bayer Demosaicing (Malvar, He, and Cutler)
+    COLOR_BayerBG2BGR_MHT = 256,
+    COLOR_BayerGB2BGR_MHT = 257,
+    COLOR_BayerRG2BGR_MHT = 258,
+    COLOR_BayerGR2BGR_MHT = 259,
+
+    COLOR_BayerBG2RGB_MHT = COLOR_BayerRG2BGR_MHT,
+    COLOR_BayerGB2RGB_MHT = COLOR_BayerGR2BGR_MHT,
+    COLOR_BayerRG2RGB_MHT = COLOR_BayerBG2BGR_MHT,
+    COLOR_BayerGR2RGB_MHT = COLOR_BayerGB2BGR_MHT,
+
+    COLOR_BayerBG2GRAY_MHT = 260,
+    COLOR_BayerGB2GRAY_MHT = 261,
+    COLOR_BayerRG2GRAY_MHT = 262,
+    COLOR_BayerGR2GRAY_MHT = 263
+};
+CV_EXPORTS void demosaicing(const GpuMat& src, GpuMat& dst, int code, int dcn = -1, Stream& stream = Stream::Null());
+
 //! swap channels
 //! dstOrder - Integer array describing how channel values are permutated. The n-th entry
 //!            of the array contains the number of the channel that is stored in the n-th channel of
@@ -700,11 +733,11 @@ CV_EXPORTS void cornerMinEigenVal(const GpuMat& src, GpuMat& dst, GpuMat& Dx, Gp
     int borderType=BORDER_REFLECT101, Stream& stream = Stream::Null());
 
 //! performs per-element multiplication of two full (not packed) Fourier spectrums
-//! supports 32FC2 matrixes only (interleaved format)
+//! supports 32FC2 matrices only (interleaved format)
 CV_EXPORTS void mulSpectrums(const GpuMat& a, const GpuMat& b, GpuMat& c, int flags, bool conjB=false, Stream& stream = Stream::Null());
 
 //! performs per-element multiplication of two full (not packed) Fourier spectrums
-//! supports 32FC2 matrixes only (interleaved format)
+//! supports 32FC2 matrices only (interleaved format)
 CV_EXPORTS void mulAndScaleSpectrums(const GpuMat& a, const GpuMat& b, GpuMat& c, int flags, float scale, bool conjB=false, Stream& stream = Stream::Null());
 
 //! Performs a forward or inverse discrete Fourier transform (1D or 2D) of floating point matrix.
@@ -791,30 +824,27 @@ private:
     GpuMat lab, l, ab;
 };
 
+struct CV_EXPORTS CannyBuf
+{
+    void create(const Size& image_size, int apperture_size = 3);
+    void release();
 
-struct CV_EXPORTS CannyBuf;
+    GpuMat dx, dy;
+    GpuMat mag;
+    GpuMat map;
+    GpuMat st1, st2;
+    GpuMat unused;
+    Ptr<FilterEngine_GPU> filterDX, filterDY;
+
+    CannyBuf() {}
+    explicit CannyBuf(const Size& image_size, int apperture_size = 3) {create(image_size, apperture_size);}
+    CannyBuf(const GpuMat& dx_, const GpuMat& dy_);
+};
 
 CV_EXPORTS void Canny(const GpuMat& image, GpuMat& edges, double low_thresh, double high_thresh, int apperture_size = 3, bool L2gradient = false);
 CV_EXPORTS void Canny(const GpuMat& image, CannyBuf& buf, GpuMat& edges, double low_thresh, double high_thresh, int apperture_size = 3, bool L2gradient = false);
 CV_EXPORTS void Canny(const GpuMat& dx, const GpuMat& dy, GpuMat& edges, double low_thresh, double high_thresh, bool L2gradient = false);
 CV_EXPORTS void Canny(const GpuMat& dx, const GpuMat& dy, CannyBuf& buf, GpuMat& edges, double low_thresh, double high_thresh, bool L2gradient = false);
-
-struct CV_EXPORTS CannyBuf
-{
-    CannyBuf() {}
-    explicit CannyBuf(const Size& image_size, int apperture_size = 3) {create(image_size, apperture_size);}
-    CannyBuf(const GpuMat& dx_, const GpuMat& dy_);
-
-    void create(const Size& image_size, int apperture_size = 3);
-
-    void release();
-
-    GpuMat dx, dy;
-    GpuMat dx_buf, dy_buf;
-    GpuMat edgeBuf;
-    GpuMat trackBuf1, trackBuf2;
-    Ptr<FilterEngine_GPU> filterDX, filterDY;
-};
 
 class CV_EXPORTS ImagePyramid
 {
@@ -853,6 +883,11 @@ struct HoughLinesBuf
 CV_EXPORTS void HoughLines(const GpuMat& src, GpuMat& lines, float rho, float theta, int threshold, bool doSort = false, int maxLines = 4096);
 CV_EXPORTS void HoughLines(const GpuMat& src, GpuMat& lines, HoughLinesBuf& buf, float rho, float theta, int threshold, bool doSort = false, int maxLines = 4096);
 CV_EXPORTS void HoughLinesDownload(const GpuMat& d_lines, OutputArray h_lines, OutputArray h_votes = noArray());
+
+//! HoughLinesP
+
+//! finds line segments in the black-n-white image using probabalistic Hough transform
+CV_EXPORTS void HoughLinesP(const GpuMat& image, GpuMat& lines, HoughLinesBuf& buf, float rho, float theta, int minLineLength, int maxLineGap, int maxLines = 4096);
 
 //! HoughCircles
 
@@ -912,11 +947,8 @@ CV_EXPORTS void meanStdDev(const GpuMat& mtx, Scalar& mean, Scalar& stddev, GpuM
 //! supports NORM_INF, NORM_L1, NORM_L2
 //! supports all matrices except 64F
 CV_EXPORTS double norm(const GpuMat& src1, int normType=NORM_L2);
-
-//! computes norm of array
-//! supports NORM_INF, NORM_L1, NORM_L2
-//! supports all matrices except 64F
 CV_EXPORTS double norm(const GpuMat& src1, int normType, GpuMat& buf);
+CV_EXPORTS double norm(const GpuMat& src1, int normType, const GpuMat& mask, GpuMat& buf);
 
 //! computes norm of the difference between two arrays
 //! supports NORM_INF, NORM_L1, NORM_L2
@@ -926,45 +958,33 @@ CV_EXPORTS double norm(const GpuMat& src1, const GpuMat& src2, int normType=NORM
 //! computes sum of array elements
 //! supports only single channel images
 CV_EXPORTS Scalar sum(const GpuMat& src);
-
-//! computes sum of array elements
-//! supports only single channel images
 CV_EXPORTS Scalar sum(const GpuMat& src, GpuMat& buf);
+CV_EXPORTS Scalar sum(const GpuMat& src, const GpuMat& mask, GpuMat& buf);
 
 //! computes sum of array elements absolute values
 //! supports only single channel images
 CV_EXPORTS Scalar absSum(const GpuMat& src);
-
-//! computes sum of array elements absolute values
-//! supports only single channel images
 CV_EXPORTS Scalar absSum(const GpuMat& src, GpuMat& buf);
+CV_EXPORTS Scalar absSum(const GpuMat& src, const GpuMat& mask, GpuMat& buf);
 
 //! computes squared sum of array elements
 //! supports only single channel images
 CV_EXPORTS Scalar sqrSum(const GpuMat& src);
-
-//! computes squared sum of array elements
-//! supports only single channel images
 CV_EXPORTS Scalar sqrSum(const GpuMat& src, GpuMat& buf);
+CV_EXPORTS Scalar sqrSum(const GpuMat& src, const GpuMat& mask, GpuMat& buf);
 
 //! finds global minimum and maximum array elements and returns their values
 CV_EXPORTS void minMax(const GpuMat& src, double* minVal, double* maxVal=0, const GpuMat& mask=GpuMat());
-
-//! finds global minimum and maximum array elements and returns their values
 CV_EXPORTS void minMax(const GpuMat& src, double* minVal, double* maxVal, const GpuMat& mask, GpuMat& buf);
 
 //! finds global minimum and maximum array elements and returns their values with locations
 CV_EXPORTS void minMaxLoc(const GpuMat& src, double* minVal, double* maxVal=0, Point* minLoc=0, Point* maxLoc=0,
                           const GpuMat& mask=GpuMat());
-
-//! finds global minimum and maximum array elements and returns their values with locations
 CV_EXPORTS void minMaxLoc(const GpuMat& src, double* minVal, double* maxVal, Point* minLoc, Point* maxLoc,
                           const GpuMat& mask, GpuMat& valbuf, GpuMat& locbuf);
 
 //! counts non-zero array elements
 CV_EXPORTS int countNonZero(const GpuMat& src);
-
-//! counts non-zero array elements
 CV_EXPORTS int countNonZero(const GpuMat& src, GpuMat& buf);
 
 //! reduces a matrix to a vector
@@ -1041,6 +1061,14 @@ CV_EXPORTS void calcHist(const GpuMat& src, GpuMat& hist, GpuMat& buf, Stream& s
 CV_EXPORTS void equalizeHist(const GpuMat& src, GpuMat& dst, Stream& stream = Stream::Null());
 CV_EXPORTS void equalizeHist(const GpuMat& src, GpuMat& dst, GpuMat& hist, Stream& stream = Stream::Null());
 CV_EXPORTS void equalizeHist(const GpuMat& src, GpuMat& dst, GpuMat& hist, GpuMat& buf, Stream& stream = Stream::Null());
+
+class CV_EXPORTS CLAHE : public cv::CLAHE
+{
+public:
+    using cv::CLAHE::apply;
+    virtual void apply(InputArray src, OutputArray dst, Stream& stream) = 0;
+};
+CV_EXPORTS Ptr<cv::gpu::CLAHE> createCLAHE(double clipLimit = 40.0, Size tileGridSize = Size(8, 8));
 
 //////////////////////////////// StereoBM_GPU ////////////////////////////////
 
@@ -1501,6 +1529,12 @@ public:
     explicit BruteForceMatcher_GPU(Hamming /*d*/) : BruteForceMatcher_GPU_base(HammingDist) {}
 };
 
+class CV_EXPORTS BFMatcher_GPU : public BruteForceMatcher_GPU_base
+{
+public:
+    explicit BFMatcher_GPU(int norm = NORM_L2) : BruteForceMatcher_GPU_base(norm == NORM_L1 ? L1Dist : norm == NORM_L2 ? L2Dist : HammingDist) {}
+};
+
 ////////////////////////////////// CascadeClassifier_GPU //////////////////////////////////////////
 // The cascade classifier class for object detection: supports old haar and new lbp xlm formats and nvbin for haar cascades olny.
 class CV_EXPORTS CascadeClassifier_GPU
@@ -1515,7 +1549,8 @@ public:
     void release();
 
     /* returns number of detected objects */
-    int detectMultiScale(const GpuMat& image, GpuMat& objectsBuf, double scaleFactor = 1.1, int minNeighbors = 4, Size minSize = Size());
+    int detectMultiScale(const GpuMat& image, GpuMat& objectsBuf, double scaleFactor = 1.2, int minNeighbors = 4, Size minSize = Size());
+    int detectMultiScale(const GpuMat& image, GpuMat& objectsBuf, Size maxObjectSize, Size minSize = Size(), double scaleFactor = 1.1, int minNeighbors = 4);
 
     bool findLargestObject;
     bool visualizeInPlace;
@@ -1523,88 +1558,11 @@ public:
     Size getClassifierSize() const;
 
 private:
-
     struct CascadeClassifierImpl;
     CascadeClassifierImpl* impl;
     struct HaarCascade;
     struct LbpCascade;
     friend class CascadeClassifier_GPU_LBP;
-};
-
-////////////////////////////////// SURF //////////////////////////////////////////
-
-class CV_EXPORTS SURF_GPU
-{
-public:
-    enum KeypointLayout
-    {
-        X_ROW = 0,
-        Y_ROW,
-        LAPLACIAN_ROW,
-        OCTAVE_ROW,
-        SIZE_ROW,
-        ANGLE_ROW,
-        HESSIAN_ROW,
-        ROWS_COUNT
-    };
-
-    //! the default constructor
-    SURF_GPU();
-    //! the full constructor taking all the necessary parameters
-    explicit SURF_GPU(double _hessianThreshold, int _nOctaves=4,
-         int _nOctaveLayers=2, bool _extended=false, float _keypointsRatio=0.01f, bool _upright = false);
-
-    //! returns the descriptor size in float's (64 or 128)
-    int descriptorSize() const;
-
-    //! upload host keypoints to device memory
-    void uploadKeypoints(const vector<KeyPoint>& keypoints, GpuMat& keypointsGPU);
-    //! download keypoints from device to host memory
-    void downloadKeypoints(const GpuMat& keypointsGPU, vector<KeyPoint>& keypoints);
-
-    //! download descriptors from device to host memory
-    void downloadDescriptors(const GpuMat& descriptorsGPU, vector<float>& descriptors);
-
-    //! finds the keypoints using fast hessian detector used in SURF
-    //! supports CV_8UC1 images
-    //! keypoints will have nFeature cols and 6 rows
-    //! keypoints.ptr<float>(X_ROW)[i] will contain x coordinate of i'th feature
-    //! keypoints.ptr<float>(Y_ROW)[i] will contain y coordinate of i'th feature
-    //! keypoints.ptr<float>(LAPLACIAN_ROW)[i] will contain laplacian sign of i'th feature
-    //! keypoints.ptr<float>(OCTAVE_ROW)[i] will contain octave of i'th feature
-    //! keypoints.ptr<float>(SIZE_ROW)[i] will contain size of i'th feature
-    //! keypoints.ptr<float>(ANGLE_ROW)[i] will contain orientation of i'th feature
-    //! keypoints.ptr<float>(HESSIAN_ROW)[i] will contain response of i'th feature
-    void operator()(const GpuMat& img, const GpuMat& mask, GpuMat& keypoints);
-    //! finds the keypoints and computes their descriptors.
-    //! Optionally it can compute descriptors for the user-provided keypoints and recompute keypoints direction
-    void operator()(const GpuMat& img, const GpuMat& mask, GpuMat& keypoints, GpuMat& descriptors,
-        bool useProvidedKeypoints = false);
-
-    void operator()(const GpuMat& img, const GpuMat& mask, std::vector<KeyPoint>& keypoints);
-    void operator()(const GpuMat& img, const GpuMat& mask, std::vector<KeyPoint>& keypoints, GpuMat& descriptors,
-        bool useProvidedKeypoints = false);
-
-    void operator()(const GpuMat& img, const GpuMat& mask, std::vector<KeyPoint>& keypoints, std::vector<float>& descriptors,
-        bool useProvidedKeypoints = false);
-
-    void releaseMemory();
-
-    // SURF parameters
-    double hessianThreshold;
-    int nOctaves;
-    int nOctaveLayers;
-    bool extended;
-    bool upright;
-
-    //! max keypoints = min(keypointsRatio * img.size().area(), 65535)
-    float keypointsRatio;
-
-    GpuMat sum, mask1, maskSum, intBuffer;
-
-    GpuMat det, trace;
-
-    GpuMat maxPosBuffer;
 };
 
 ////////////////////////////////// FAST //////////////////////////////////////////
@@ -1622,7 +1580,7 @@ public:
     // all features have same size
     static const int FEATURE_SIZE = 7;
 
-    explicit FAST_GPU(int threshold, bool nonmaxSupression = true, double keypointsRatio = 0.05);
+    explicit FAST_GPU(int threshold, bool nonmaxSuppression = true, double keypointsRatio = 0.05);
 
     //! finds the keypoints using FAST detector
     //! supports only CV_8UC1 images
@@ -1638,19 +1596,19 @@ public:
     //! release temporary buffer's memory
     void release();
 
-    bool nonmaxSupression;
+    bool nonmaxSuppression;
 
     int threshold;
 
     //! max keypoints = keypointsRatio * img.size().area()
     double keypointsRatio;
 
-    //! find keypoints and compute it's response if nonmaxSupression is true
+    //! find keypoints and compute it's response if nonmaxSuppression is true
     //! return count of detected keypoints
     int calcKeyPointsLocation(const GpuMat& image, const GpuMat& mask);
 
     //! get final array of keypoints
-    //! performs nonmax supression if needed
+    //! performs nonmax suppression if needed
     //! return final count of keypoints
     int getKeyPoints(GpuMat& keypoints);
 
@@ -1712,10 +1670,10 @@ public:
     //! returns the descriptor size in bytes
     inline int descriptorSize() const { return kBytes; }
 
-    inline void setFastParams(int threshold, bool nonmaxSupression = true)
+    inline void setFastParams(int threshold, bool nonmaxSuppression = true)
     {
         fastDetector_.threshold = threshold;
-        fastDetector_.nonmaxSupression = nonmaxSupression;
+        fastDetector_.nonmaxSuppression = nonmaxSuppression;
     }
 
     //! release temporary buffer's memory
@@ -1855,63 +1813,30 @@ inline GoodFeaturesToTrackDetector_GPU::GoodFeaturesToTrackDetector_GPU(int maxC
 class CV_EXPORTS PyrLKOpticalFlow
 {
 public:
-    PyrLKOpticalFlow()
-    {
-        winSize = Size(21, 21);
-        maxLevel = 3;
-        iters = 30;
-        derivLambda = 0.5;
-        useInitialFlow = false;
-        minEigThreshold = 1e-4f;
-        getMinEigenVals = false;
-        isDeviceArch11_ = !DeviceInfo().supports(FEATURE_SET_COMPUTE_12);
-    }
+    PyrLKOpticalFlow();
 
     void sparse(const GpuMat& prevImg, const GpuMat& nextImg, const GpuMat& prevPts, GpuMat& nextPts,
         GpuMat& status, GpuMat* err = 0);
 
     void dense(const GpuMat& prevImg, const GpuMat& nextImg, GpuMat& u, GpuMat& v, GpuMat* err = 0);
 
+    void releaseMemory();
+
     Size winSize;
     int maxLevel;
     int iters;
-    double derivLambda;
+    double derivLambda; //unused
     bool useInitialFlow;
-    float minEigThreshold;
-    bool getMinEigenVals;
-
-    void releaseMemory()
-    {
-        dx_calcBuf_.release();
-        dy_calcBuf_.release();
-
-        prevPyr_.clear();
-        nextPyr_.clear();
-
-        dx_buf_.release();
-        dy_buf_.release();
-
-        uPyr_.clear();
-        vPyr_.clear();
-    }
+    float minEigThreshold; //unused
+    bool getMinEigenVals;  //unused
 
 private:
-    void calcSharrDeriv(const GpuMat& src, GpuMat& dx, GpuMat& dy);
-
-    void buildImagePyramid(const GpuMat& img0, vector<GpuMat>& pyr, bool withBorder);
-
-    GpuMat dx_calcBuf_;
-    GpuMat dy_calcBuf_;
-
+    GpuMat uPyr_[2];
     vector<GpuMat> prevPyr_;
     vector<GpuMat> nextPyr_;
-
-    GpuMat dx_buf_;
-    GpuMat dy_buf_;
-
-    vector<GpuMat> uPyr_;
-    vector<GpuMat> vPyr_;
-
+    GpuMat vPyr_[2];
+    vector<GpuMat> buf_;
+    vector<GpuMat> unused;
     bool isDeviceArch11_;
 };
 
@@ -1979,6 +1904,113 @@ private:
     std::vector<GpuMat> pyramid0_, pyramid1_;
 
     bool isDeviceArch11_;
+};
+
+
+// Implementation of the Zach, Pock and Bischof Dual TV-L1 Optical Flow method
+//
+// see reference:
+//   [1] C. Zach, T. Pock and H. Bischof, "A Duality Based Approach for Realtime TV-L1 Optical Flow".
+//   [2] Javier Sanchez, Enric Meinhardt-Llopis and Gabriele Facciolo. "TV-L1 Optical Flow Estimation".
+class CV_EXPORTS OpticalFlowDual_TVL1_GPU
+{
+public:
+    OpticalFlowDual_TVL1_GPU();
+
+    void operator ()(const GpuMat& I0, const GpuMat& I1, GpuMat& flowx, GpuMat& flowy);
+
+    void collectGarbage();
+
+    /**
+     * Time step of the numerical scheme.
+     */
+    double tau;
+
+    /**
+     * Weight parameter for the data term, attachment parameter.
+     * This is the most relevant parameter, which determines the smoothness of the output.
+     * The smaller this parameter is, the smoother the solutions we obtain.
+     * It depends on the range of motions of the images, so its value should be adapted to each image sequence.
+     */
+    double lambda;
+
+    /**
+     * Weight parameter for (u - v)^2, tightness parameter.
+     * It serves as a link between the attachment and the regularization terms.
+     * In theory, it should have a small value in order to maintain both parts in correspondence.
+     * The method is stable for a large range of values of this parameter.
+     */
+    double theta;
+
+    /**
+     * Number of scales used to create the pyramid of images.
+     */
+    int nscales;
+
+    /**
+     * Number of warpings per scale.
+     * Represents the number of times that I1(x+u0) and grad( I1(x+u0) ) are computed per scale.
+     * This is a parameter that assures the stability of the method.
+     * It also affects the running time, so it is a compromise between speed and accuracy.
+     */
+    int warps;
+
+    /**
+     * Stopping criterion threshold used in the numerical scheme, which is a trade-off between precision and running time.
+     * A small value will yield more accurate solutions at the expense of a slower convergence.
+     */
+    double epsilon;
+
+    /**
+     * Stopping criterion iterations number used in the numerical scheme.
+     */
+    int iterations;
+
+    bool useInitialFlow;
+
+private:
+    void procOneScale(const GpuMat& I0, const GpuMat& I1, GpuMat& u1, GpuMat& u2);
+
+    std::vector<GpuMat> I0s;
+    std::vector<GpuMat> I1s;
+    std::vector<GpuMat> u1s;
+    std::vector<GpuMat> u2s;
+
+    GpuMat I1x_buf;
+    GpuMat I1y_buf;
+
+    GpuMat I1w_buf;
+    GpuMat I1wx_buf;
+    GpuMat I1wy_buf;
+
+    GpuMat grad_buf;
+    GpuMat rho_c_buf;
+
+    GpuMat p11_buf;
+    GpuMat p12_buf;
+    GpuMat p21_buf;
+    GpuMat p22_buf;
+
+    GpuMat diff_buf;
+    GpuMat norm_buf;
+};
+
+
+//! Calculates optical flow for 2 images using block matching algorithm */
+CV_EXPORTS void calcOpticalFlowBM(const GpuMat& prev, const GpuMat& curr,
+                                  Size block_size, Size shift_size, Size max_range, bool use_previous,
+                                  GpuMat& velx, GpuMat& vely, GpuMat& buf,
+                                  Stream& stream = Stream::Null());
+
+class CV_EXPORTS FastOpticalFlowBM
+{
+public:
+    void operator ()(const GpuMat& I0, const GpuMat& I1, GpuMat& flowx, GpuMat& flowy, int search_window = 21, int block_window = 7, Stream& s = Stream::Null());
+
+private:
+    GpuMat buffer;
+    GpuMat extended_I0;
+    GpuMat extended_I1;
 };
 
 
@@ -2207,41 +2239,6 @@ private:
     GpuMat bgmodelUsedModes_; //keep track of number of modes per pixel
 };
 
-/*!
- * The class implements the following algorithm:
- * "ViBe: A universal background subtraction algorithm for video sequences"
- * O. Barnich and M. Van D Roogenbroeck
- * IEEE Transactions on Image Processing, 20(6) :1709-1724, June 2011
- */
-class CV_EXPORTS VIBE_GPU
-{
-public:
-    //! the default constructor
-    explicit VIBE_GPU(unsigned long rngSeed = 1234567);
-
-    //! re-initiaization method
-    void initialize(const GpuMat& firstFrame, Stream& stream = Stream::Null());
-
-    //! the update operator
-    void operator()(const GpuMat& frame, GpuMat& fgmask, Stream& stream = Stream::Null());
-
-    //! releases all inner buffers
-    void release();
-
-    int nbSamples;         // number of samples per pixel
-    int reqMatches;        // #_min
-    int radius;            // R
-    int subsamplingFactor; // amount of random subsampling
-
-private:
-    Size frameSize_;
-
-    unsigned long rngSeed_;
-    GpuMat randStates_;
-
-    GpuMat samples_;
-};
-
 /**
  * Background Subtractor module. Takes a series of images and returns a sequence of mask (8UC1)
  * images of the same size, where 255 indicates Foreground and 0 represents Background.
@@ -2446,7 +2443,7 @@ public:
         Uncompressed_YV12   = (('Y'<<24)|('V'<<16)|('1'<<8)|('2')),   // Y,V,U (4:2:0)
         Uncompressed_NV12   = (('N'<<24)|('V'<<16)|('1'<<8)|('2')),   // Y,UV  (4:2:0)
         Uncompressed_YUYV   = (('Y'<<24)|('U'<<16)|('Y'<<8)|('V')),   // YUYV/YUY2 (4:2:2)
-        Uncompressed_UYVY   = (('U'<<24)|('Y'<<16)|('V'<<8)|('Y')),   // UYVY (4:2:2)
+        Uncompressed_UYVY   = (('U'<<24)|('Y'<<16)|('V'<<8)|('Y'))    // UYVY (4:2:2)
     };
 
     enum ChromaFormat
@@ -2454,7 +2451,7 @@ public:
         Monochrome=0,
         YUV420,
         YUV422,
-        YUV444,
+        YUV444
     };
 
     struct FormatInfo
