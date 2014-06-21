@@ -13,45 +13,7 @@
 	<header>include/CinderOpenCV.h</header>
 	<includePath>include</includePath>
 	<includePath>include/opencv2</includePath>
-	<platform compiler="vc10">
-		<platform config="Debug">
-			<staticLibrary>lib/vc10/opencv_calib3d243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_contrib243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_core243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_features2d243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_flann243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_gpu243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_imgproc243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_legacy243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_ml243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_nonfree243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_objdetect243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_photo243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_stitching243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_ts243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_video243d.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_videostab243d.lib</staticLibrary>
-		</platform>
-		<platform config="release">
-			<staticLibrary>lib/vc10/opencv_calib3d243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_contrib243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_core243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_features2d243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_flann243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_gpu243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_imgproc243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_legacy243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_ml243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_nonfree243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_objdetect243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_photo243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_stitching243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_ts243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_video243.lib</staticLibrary>
-			<staticLibrary>lib/vc10/opencv_videostab243.lib</staticLibrary>
-		</platform>
-	</platform>
-	<platform compiler="vc11">
+	<platform compiler="vc2012">
 		<platform config="Debug">
 			<staticLibrary>lib/vc11/opencv_calib3d243d.lib</staticLibrary>
 			<staticLibrary>lib/vc11/opencv_contrib243d.lib</staticLibrary>
@@ -101,23 +63,29 @@
 			<staticLibrary>lib/macosx/libopencv_ml.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_nonfree.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_objdetect.a</staticLibrary>
+			<staticLibrary>lib/macosx/libopencv_ocl.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_photo.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_stitching.a</staticLibrary>
+			<staticLibrary>lib/macosx/libopencv_superres.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_ts.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_video.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_videostab.a</staticLibrary>
 	</platform>
 	<platform os="ios" sdk="simulator">
-			<staticLibrary>lib/ios-sim/libopencv_calib3d.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_contrib.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_core.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_features2d.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_flann.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_imgproc.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_legacy.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_ml.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_objdetect.a</staticLibrary>
-			<staticLibrary>lib/ios-sim/libopencv_video.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_calib3d.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_contrib.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_core.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_features2d.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_flann.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_imgproc.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_legacy.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_ml.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_nonfree.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_objdetect.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_photo.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_stitching.a</staticLibrary>			
+			<staticLibrary>lib/ios/libopencv_video.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_videostab.a</staticLibrary>
 	</platform>
 	<platform os="ios" sdk="device">
 			<staticLibrary>lib/ios/libopencv_calib3d.a</staticLibrary>
@@ -128,8 +96,12 @@
 			<staticLibrary>lib/ios/libopencv_imgproc.a</staticLibrary>
 			<staticLibrary>lib/ios/libopencv_legacy.a</staticLibrary>
 			<staticLibrary>lib/ios/libopencv_ml.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_nonfree.a</staticLibrary>
 			<staticLibrary>lib/ios/libopencv_objdetect.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_photo.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_stitching.a</staticLibrary>			
 			<staticLibrary>lib/ios/libopencv_video.a</staticLibrary>
+			<staticLibrary>lib/ios/libopencv_videostab.a</staticLibrary>
 	</platform>
 </block>
 <template>templates/Basic OpenCV/template.xml</template>
