@@ -14,41 +14,45 @@
 	<includePath>include</includePath>
 	<includePath>include/opencv2</includePath>
 	<platform compiler="vc2012">
-		<platform config="Debug">
-			<staticLibrary>lib/vc11/opencv_calib3d243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_contrib243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_core243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_features2d243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_flann243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_gpu243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_imgproc243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_legacy243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_ml243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_nonfree243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_objdetect243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_photo243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_stitching243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_ts243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_video243d.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_videostab243d.lib</staticLibrary>
+		<platform config="debug">
+			<staticLibrary>lib/vc2012/x86/opencv_calib3d249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_contrib249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_core249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_features2d249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_flann249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_gpu249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_imgproc249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_legacy249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_ml249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_nonfree249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_objdetect249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_ocl249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_photo249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_stitching249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_superres249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_ts249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_video249d.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_videostab249d.lib</staticLibrary>
 		</platform>
 		<platform config="release">
-			<staticLibrary>lib/vc11/opencv_calib3d243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_contrib243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_core243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_features2d243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_flann243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_gpu243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_imgproc243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_legacy243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_ml243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_nonfree243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_objdetect243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_photo243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_stitching243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_ts243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_video243.lib</staticLibrary>
-			<staticLibrary>lib/vc11/opencv_videostab243.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_calib3d249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_contrib249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_core249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_features2d249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_flann249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_gpu249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_imgproc249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_legacy249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_ml249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_nonfree249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_objdetect249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_ocl249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_photo249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_stitching249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_superres249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_ts249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_video249.lib</staticLibrary>
+			<staticLibrary>lib/vc2012/x86/opencv_videostab249.lib</staticLibrary>
 		</platform>
 	</platform>
 	<platform os="macosx">
