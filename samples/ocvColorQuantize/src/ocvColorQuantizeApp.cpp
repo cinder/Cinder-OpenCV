@@ -1,6 +1,6 @@
 #include "cinder/app/AppNative.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/ImageIo.h"
-#include "cinder/gl/Texture.h"
 #include "cinder/params/Params.h"
 #include "cinder/ip/Fill.h"
 
@@ -17,7 +17,7 @@ class ocvColorQuantizeApp : public AppNative {
 	void updateImage();
 
 	ci::Surface			mInputImage;
-	gl::Texture			mTexture;
+	gl::TextureRef			mTexture;
 };
 
 void ocvColorQuantizeApp::setup()
@@ -70,7 +70,7 @@ void ocvColorQuantizeApp::updateImage()
 		ip::fill( &result, clusterColors[i], Area( i * swatchSize, result.getHeight() - swatchSize, ( i + 1 ) * swatchSize, result.getHeight() ) );
 	}
 	
-	mTexture = gl::Texture( result );
+	mTexture = gl::Texture::create( result );
 }
 
 void ocvColorQuantizeApp::draw()

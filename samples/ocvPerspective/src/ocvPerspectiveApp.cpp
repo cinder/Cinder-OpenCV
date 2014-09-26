@@ -1,5 +1,5 @@
 #include "cinder/app/AppNative.h"
-#include "cinder/gl/Texture.h"
+#include "cinder/app/RendererGl.h"
 #include "CinderOpenCV.h"
 
 using namespace ci;
@@ -12,7 +12,7 @@ class ocvPerspectiveApp : public AppNative {
 	void	prepareSettings( Settings *settings );
 	void	setup();
 
-	int		findNearestPt( const Vec2f &aPt, float minDistance );
+	int		findNearestPt( const vec2 &aPt, float minDistance );
 	void	mouseDown( MouseEvent event );
 	void	mouseDrag( MouseEvent event );
 	void	mouseUp( MouseEvent event );
@@ -21,9 +21,9 @@ class ocvPerspectiveApp : public AppNative {
 	void	draw();
 
 	Surface8u			mInputImage;
-	Vec2f				mPoints[4];
+	vec2				mPoints[4];
 	int					mTrackedPoint;
-	gl::Texture			mTexture;
+	gl::TextureRef		mTexture;
 };
 
 void ocvPerspectiveApp::prepareSettings( Settings *settings )
@@ -39,20 +39,20 @@ void ocvPerspectiveApp::setup()
 	mInputImage = ci::Surface8u( loadImage( loadAsset( "LAX.jpg" ) ) );	
 	
 	mTrackedPoint = -1;
-	mPoints[0] = Vec2f( 150, 110 );
-	mPoints[1] = Vec2f( getWindowWidth() - 50, 0 );
-	mPoints[2] = Vec2f( getWindowWidth() - 20, getWindowHeight() - 10 );
-	mPoints[3] = Vec2f( 0, getWindowHeight() - 40 );
+	mPoints[0] = vec2( 150, 110 );
+	mPoints[1] = vec2( getWindowWidth() - 50, 0 );
+	mPoints[2] = vec2( getWindowWidth() - 20, getWindowHeight() - 10 );
+	mPoints[3] = vec2( 0, getWindowHeight() - 40 );
 	
 	updateImage();
 }
 
-int ocvPerspectiveApp::findNearestPt( const Vec2f &aPt, float minDistance )
+int ocvPerspectiveApp::findNearestPt( const vec2 &aPt, float minDistance )
 {
 	int result = -1;
 	float nearestDist;
 	for( size_t i = 0; i < 4; ++i ) {
-		float dist = mPoints[i].distance( aPt );
+		float dist = distance( mPoints[i], aPt );
 		if( dist < minDistance ) {
 			if( ( result == -1 ) || ( dist < nearestDist ) ) {
 				result = i;
@@ -99,7 +99,7 @@ void ocvPerspectiveApp::updateImage()
 	cv::Mat warpMatrix = cv::getPerspectiveTransform( src, dst );
 	cv::warpPerspective( input, output, warpMatrix, toOcv( getWindowSize() ), cv::INTER_CUBIC );
 
-	mTexture = gl::Texture( fromOcv( output ) );
+	mTexture = gl::Texture::create( fromOcv( output ) );
 }
 
 void ocvPerspectiveApp::draw()

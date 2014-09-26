@@ -1,5 +1,5 @@
 #include "cinder/app/AppNative.h"
-#include "cinder/gl/Texture.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/Capture.h"
 
 #include "CinderOpenCV.h"
@@ -13,15 +13,15 @@ class ocvCaptureApp : public AppNative {
 	void update();
 	void draw();
 	
-	Capture			mCap;
-	gl::Texture		mTexture;
+	CaptureRef			mCapture;
+	gl::TextureRef		mTexture;
 };
 
 void ocvCaptureApp::setup()
 {
 	try {
-		mCap = Capture( 640, 480 );
-		mCap.start();
+		mCapture = Capture::create( 640, 480 );
+		mCapture->start();
 	}
 	catch( ... ) {
 		console() << "Failed to initialize capture" << std::endl;
@@ -30,8 +30,8 @@ void ocvCaptureApp::setup()
 
 void ocvCaptureApp::update()
 {
-	if( mCap && mCap.checkNewFrame() ) {
-		cv::Mat input( toOcv( mCap.getSurface() ) ), output;
+	if( mCapture && mCapture->checkNewFrame() ) {
+		cv::Mat input( toOcv( mCapture->getSurface() ) ), output;
 
 		cv::Sobel( input, output, CV_8U, 1, 0 );
 		
@@ -40,7 +40,7 @@ void ocvCaptureApp::update()
 //		cv::circle( output, toOcv( Vec2f(200, 200) ), 300, toOcv( Color( 0, 0.5f, 1 ) ), -1 );
 //		cv::line( output, cv::Point( 1, 1 ), cv::Point( 30, 30 ), toOcv( Color( 1, 0.5f, 0 ) ) );
 		
-		mTexture = gl::Texture( fromOcv( output ) );
+		mTexture = gl::Texture::create( fromOcv( output ) );
 	}	 
 }
 

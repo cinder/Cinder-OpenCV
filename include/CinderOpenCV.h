@@ -146,22 +146,22 @@ inline cv::Scalar toOcv( const Color &color )
 	return CV_RGB( color.r * 255, color.g * 255, color.b * 255 );
 }
 
-inline Vec2f fromOcv( const cv::Point2f &point )
+inline vec2 fromOcv( const cv::Point2f &point )
 {
-	return Vec2f( point.x, point.y );
+	return vec2( point.x, point.y );
 }
 
-inline cv::Point2f toOcv( const Vec2f &point )
+inline cv::Point2f toOcv( const vec2 &point )
 {
 	return cv::Point2f( point.x, point.y );
 }
 
-inline Vec2i fromOcv( const cv::Point &point )
+inline ivec2 fromOcv( const cv::Point &point )
 {
-	return Vec2i( point.x, point.y );
+	return ivec2( point.x, point.y );
 }
 
-inline cv::Point toOcv( const Vec2i &point )
+inline cv::Point toOcv( const ivec2 &point )
 {
 	return cv::Point( point.x, point.y );
 }

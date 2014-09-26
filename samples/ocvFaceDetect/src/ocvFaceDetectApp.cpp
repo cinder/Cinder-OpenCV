@@ -1,6 +1,6 @@
 #include "cinder/app/AppNative.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/Capture.h"
-#include "cinder/gl/Texture.h"
 
 #include "CinderOpenCv.h"
 
@@ -10,15 +10,15 @@ using namespace std;
 
 class ocvFaceDetectApp : public AppNative {
  public:
-	void setup();
+	void setup() override;
 
 	void updateFaces( Surface cameraImage );
-	void update();
+	void update() override;
 	
-	void draw();
+	void draw() override;
 
-	Capture			mCapture;
-	gl::Texture		mCameraTexture;
+	CaptureRef			mCapture;
+	gl::TextureRef		mCameraTexture;
 	
 	cv::CascadeClassifier	mFaceCascade, mEyeCascade;
 	vector<Rectf>			mFaces, mEyes;
@@ -29,8 +29,8 @@ void ocvFaceDetectApp::setup()
 	mFaceCascade.load( getAssetPath( "haarcascade_frontalface_alt.xml" ).string() );
 	mEyeCascade.load( getAssetPath( "haarcascade_eye.xml" ).string() );	
 
-	mCapture = Capture( 640, 480 );
-	mCapture.start();
+	mCapture = Capture::create( 640, 480 );
+	mCapture->start();
 }
 
 void ocvFaceDetectApp::updateFaces( Surface cameraImage )
@@ -74,9 +74,9 @@ void ocvFaceDetectApp::updateFaces( Surface cameraImage )
 
 void ocvFaceDetectApp::update()
 {
-	if( mCapture.checkNewFrame() ) {
-		Surface surface = mCapture.getSurface();
-		mCameraTexture = gl::Texture( surface );
+	if( mCapture->checkNewFrame() ) {
+		Surface surface = mCapture->getSurface();
+		mCameraTexture = gl::Texture::create( surface );
 		updateFaces( surface );
 	}
 }
@@ -92,7 +92,6 @@ void ocvFaceDetectApp::draw()
 	// draw the webcam image
 	gl::color( Color( 1, 1, 1 ) );
 	gl::draw( mCameraTexture );
-	mCameraTexture.disable();
 	
 	// draw the faces as transparent yellow rectangles
 	gl::color( ColorA( 1, 1, 0, 0.45f ) );

@@ -1,7 +1,6 @@
 #include "cinder/app/AppNative.h"
-#include "cinder/gl/gl.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/ImageIo.h"
-#include "cinder/gl/Texture.h"
 
 #include "CinderOpenCv.h"
 
@@ -10,8 +9,8 @@ using namespace ci::app;
 
 class _TBOX_PREFIX_App : public AppNative {
   public:
-	void setup();
-	void draw();
+	void setup() override;
+	void draw() override;
 	
 	gl::Texture	mTexture;
 };

@@ -1,5 +1,5 @@
 #include "cinder/app/AppNative.h"
-#include "cinder/gl/Texture.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/Capture.h"
 #include "cinder/params/Params.h"
 
@@ -19,8 +19,8 @@ class ocvOpticalFlowApp : public AppNative {
 	void chooseFeatures( cv::Mat currentFrame );
 	void trackFeatures( cv::Mat currentFrame );
 	
-	gl::Texture				mTexture;
-	Capture					mCapture;
+	gl::TextureRef			mTexture;
+	CaptureRef				mCapture;
 	cv::Mat					mPrevFrame;
 	vector<cv::Point2f>		mPrevFeatures, mFeatures;
 	vector<uint8_t>			mFeatureStatuses;
@@ -33,8 +33,8 @@ void ocvOpticalFlowApp::setup()
 {
 	mDrawPoints = true;
 	
-	mCapture = Capture( 640, 480 );
-	mCapture.start();
+	mCapture = Capture::create( 640, 480 );
+	mCapture->start();
 }
 
 void ocvOpticalFlowApp::keyDown( KeyEvent event )
@@ -62,9 +62,9 @@ void ocvOpticalFlowApp::trackFeatures( cv::Mat currentFrame )
 
 void ocvOpticalFlowApp::update()
 {
-	if( mCapture.checkNewFrame() ) {
-		Surface surface( mCapture.getSurface() );
-		mTexture = gl::Texture( surface );
+	if( mCapture->checkNewFrame() ) {
+		Surface surface( mCapture->getSurface() );
+		mTexture = gl::Texture::create( surface );
 		cv::Mat currentFrame( toOcv( Channel( surface ) ) );
 		if( mPrevFrame.data ) {
 			if( mFeatures.empty() || getElapsedFrames() % 30 == 0 ) // pick new features once every 30 frames, or the first frame
@@ -87,8 +87,7 @@ void ocvOpticalFlowApp::draw()
 	gl::color( 1, 1, 1 );
 	gl::draw( mTexture );
 	
-	glDisable( GL_TEXTURE_2D );
-	glColor4f( 1, 1, 0, 0.5f );
+	gl::color( 1, 1, 0, 0.5f );
 	
 	if( mDrawPoints ) {
 		// draw all the old points
@@ -102,15 +101,15 @@ void ocvOpticalFlowApp::draw()
 	
 	// draw the lines connecting them
 #if ! defined( CINDER_COCOA_TOUCH )
-	glColor4f( 0, 1, 0, 0.5f );
-	glBegin( GL_LINES );
+	gl::color( 0, 1, 0, 0.5f );
+	gl::begin( GL_LINES );
 	for( size_t idx = 0; idx < mFeatures.size(); ++idx ) {
 		if( mFeatureStatuses[idx] ) {
 			gl::vertex( fromOcv( mFeatures[idx] ) );
 			gl::vertex( fromOcv( mPrevFeatures[idx] ) );
 		}
 	}
-	glEnd();
+	gl::end();
 #endif
 }
 

@@ -1,6 +1,6 @@
 #include "cinder/app/AppNative.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/ImageIo.h"
-#include "cinder/gl/Texture.h"
 
 #include "CinderOpenCv.h"
 
@@ -14,7 +14,7 @@ class ocvBasicApp : public AppNative {
 	void setup();
 	void draw();
 	
-	gl::Texture	mTexture;
+	gl::TextureRef	mTexture;
 };
 
 void ocvBasicApp::setup()
@@ -30,7 +30,7 @@ void ocvBasicApp::setup()
 //	cv::Sobel( input, output, CV_8U, 0, 1 ); 
 //	cv::threshold( input, output, 128, 255, CV_8U );
 
-	mTexture = gl::Texture( fromOcv( output ) );
+	mTexture = gl::Texture::create( fromOcv( output ) );
 }   
 
 void ocvBasicApp::draw()
