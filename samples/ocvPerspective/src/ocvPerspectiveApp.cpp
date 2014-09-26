@@ -52,7 +52,7 @@ int ocvPerspectiveApp::findNearestPt( const vec2 &aPt, float minDistance )
 	int result = -1;
 	float nearestDist;
 	for( size_t i = 0; i < 4; ++i ) {
-		float dist = distance( mPoints[i], aPt );
+		float dist = glm::distance( mPoints[i], aPt );
 		if( dist < minDistance ) {
 			if( ( result == -1 ) || ( dist < nearestDist ) ) {
 				result = i;
