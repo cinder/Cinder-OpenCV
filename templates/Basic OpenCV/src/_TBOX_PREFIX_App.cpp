@@ -12,7 +12,7 @@ class _TBOX_PREFIX_App : public AppNative {
 	void setup() override;
 	void draw() override;
 	
-	gl::Texture	mTexture;
+	gl::TextureRef	mTexture;
 };
 
 void _TBOX_PREFIX_App::setup()
@@ -28,7 +28,7 @@ void _TBOX_PREFIX_App::setup()
 //	cv::Sobel( input, output, CV_8U, 0, 1 ); 
 //	cv::threshold( input, output, 128, 255, CV_8U );
 
-	mTexture = gl::Texture( fromOcv( output ) );
+	mTexture = gl::Texture::create( fromOcv( output ) );
 }   
 
 void _TBOX_PREFIX_App::draw()
