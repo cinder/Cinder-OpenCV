@@ -1,3 +1,5 @@
 This is the OpenCV CinderBlock, designed for use with the open-source C++ library Cinder: http://libcinder.org
 
+Dev branch is against Cinder's glNext branch: https://github.com/cinder/Cinder/tree/glNext
+
 OpenCV 2.4.9.
