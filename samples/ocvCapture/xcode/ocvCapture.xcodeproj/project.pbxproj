@@ -276,6 +276,7 @@
 					../../../lib/macosx/libopencv_ts.a,
 					../../../lib/macosx/libopencv_video.a,
 					../../../lib/macosx/libopencv_videostab.a,
+					"-lz",
 				);
 				PRODUCT_NAME = ocvCapture;
 				SYMROOT = ./build;
@@ -319,6 +320,7 @@
 					../../../lib/macosx/libopencv_ts.a,
 					../../../lib/macosx/libopencv_video.a,
 					../../../lib/macosx/libopencv_videostab.a,
+					"-lz",
 				);
 				PRODUCT_NAME = ocvCapture;
 				STRIP_INSTALLED_PRODUCT = YES;

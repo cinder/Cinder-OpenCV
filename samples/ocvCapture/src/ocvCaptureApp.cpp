@@ -1,4 +1,4 @@
-#include "cinder/app/AppNative.h"
+#include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/Capture.h"
 
@@ -7,7 +7,7 @@
 using namespace ci;
 using namespace ci::app;
 
-class ocvCaptureApp : public AppNative {
+class ocvCaptureApp : public App {
   public:
 	void setup();
 	void update();
@@ -31,7 +31,7 @@ void ocvCaptureApp::setup()
 void ocvCaptureApp::update()
 {
 	if( mCapture && mCapture->checkNewFrame() ) {
-		cv::Mat input( toOcv( mCapture->getSurface() ) ), output;
+		cv::Mat input( toOcv( *mCapture->getSurface() ) ), output;
 
 		cv::Sobel( input, output, CV_8U, 1, 0 );
 		
@@ -40,7 +40,7 @@ void ocvCaptureApp::update()
 //		cv::circle( output, toOcv( Vec2f(200, 200) ), 300, toOcv( Color( 0, 0.5f, 1 ) ), -1 );
 //		cv::line( output, cv::Point( 1, 1 ), cv::Point( 30, 30 ), toOcv( Color( 1, 0.5f, 0 ) ) );
 		
-		mTexture = gl::Texture::create( fromOcv( output ) );
+		mTexture = gl::Texture::create( fromOcv( output ), gl::Texture::Format().loadTopDown() );
 	}	 
 }
 
@@ -52,4 +52,4 @@ void ocvCaptureApp::draw()
 }
 
 
-CINDER_APP_NATIVE( ocvCaptureApp, RendererGl )
+CINDER_APP( ocvCaptureApp, RendererGl )

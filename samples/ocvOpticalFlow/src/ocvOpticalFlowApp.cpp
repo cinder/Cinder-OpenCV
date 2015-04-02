@@ -1,4 +1,4 @@
-#include "cinder/app/AppNative.h"
+#include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/Capture.h"
 #include "cinder/params/Params.h"
@@ -9,7 +9,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class ocvOpticalFlowApp : public AppNative {
+class ocvOpticalFlowApp : public App {
   public:
 	void setup();
 	void update();
@@ -63,7 +63,7 @@ void ocvOpticalFlowApp::trackFeatures( cv::Mat currentFrame )
 void ocvOpticalFlowApp::update()
 {
 	if( mCapture->checkNewFrame() ) {
-		Surface surface( mCapture->getSurface() );
+		Surface surface( *mCapture->getSurface() );
 		mTexture = gl::Texture::create( surface );
 		cv::Mat currentFrame( toOcv( Channel( surface ) ) );
 		if( mPrevFrame.data ) {
@@ -114,4 +114,4 @@ void ocvOpticalFlowApp::draw()
 }
 
 
-CINDER_APP_NATIVE( ocvOpticalFlowApp, RendererGl )
+CINDER_APP( ocvOpticalFlowApp, RendererGl )

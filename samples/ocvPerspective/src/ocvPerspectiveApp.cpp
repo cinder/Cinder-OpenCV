@@ -1,4 +1,4 @@
-#include "cinder/app/AppNative.h"
+#include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "CinderOpenCV.h"
 
@@ -7,7 +7,7 @@ using namespace ci::app;
 using namespace std;
 
 // We'll create a new Cinder Application by deriving from the AppBasic class
-class ocvPerspectiveApp : public AppNative {
+class ocvPerspectiveApp : public App {
   public:
 	void	prepareSettings( Settings *settings );
 	void	setup();
@@ -28,7 +28,7 @@ class ocvPerspectiveApp : public AppNative {
 
 void ocvPerspectiveApp::prepareSettings( Settings *settings )
 {
-	settings->enableMultiTouch( false );
+	settings->setMultiTouchEnabled( false );
 }
 
 void ocvPerspectiveApp::setup()
@@ -115,4 +115,4 @@ void ocvPerspectiveApp::draw()
 }
 
 // This line tells Cinder to actually create the application
-CINDER_APP_NATIVE( ocvPerspectiveApp, RendererGl )
+CINDER_APP( ocvPerspectiveApp, RendererGl )
