@@ -74,6 +74,7 @@
 			<staticLibrary>lib/macosx/libopencv_ts.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_video.a</staticLibrary>
 			<staticLibrary>lib/macosx/libopencv_videostab.a</staticLibrary>
+			<staticLibrary absolute="true">-lz</staticLibrary>			
 	</platform>
 	<platform os="ios" sdk="simulator">
 			<staticLibrary>lib/ios/libopencv_calib3d.a</staticLibrary>
